@@ -1,9 +1,9 @@
 package com.bsrakdg.moviecentral.network;
 
 import com.bsrakdg.moviecentral.utils.Constants;
+import com.bsrakdg.moviecentral.utils.LiveDataCallAdapterFactory;
 
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
@@ -17,7 +17,7 @@ public class ServiceGenerator {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.BASE_URL)
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
