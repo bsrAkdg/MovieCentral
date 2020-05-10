@@ -18,12 +18,11 @@ import retrofit2.Response;
 public class ApiResponse<T> {
 
     public <R> ApiResponse<R> create(Response<R> response) {
-
         if (response == null || response.body() == null) {
             return new ApiEmptyResponse<R>();
         }
 
-        if (response.isSuccessful() && response.body() != null) {
+        if (response.isSuccessful()) {
             return new ApiSuccessResponse<>(response.body());
         } else {
             return new ApiErrorResponse<>(response.message());
