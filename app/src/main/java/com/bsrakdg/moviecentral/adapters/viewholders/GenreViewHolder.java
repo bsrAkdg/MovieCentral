@@ -1,19 +1,23 @@
 package com.bsrakdg.moviecentral.adapters.viewholders;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.databinding.ViewDataBinding;
 
+import com.bsrakdg.moviecentral.databinding.ListItemGenreBinding;
 import com.bsrakdg.moviecentral.models.Genre;
 
-public class GenreViewHolder extends RecyclerView.ViewHolder {
+public class GenreViewHolder extends BaseViewHolder<Genre> {
 
-    public GenreViewHolder(@NonNull View itemView) {
-        super(itemView);
+    private ListItemGenreBinding binding;
+
+    public GenreViewHolder(@NonNull ViewDataBinding binding) {
+        super(binding);
+        this.binding = (ListItemGenreBinding) binding;
     }
 
-    public void onBind(Genre genre) {
-
+    @Override
+    public void onBind(Genre model) {
+        super.onBind(model);
+        binding.setGenre(model);
     }
 }
