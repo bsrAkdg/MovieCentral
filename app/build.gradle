@@ -24,6 +24,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 
 }
 
@@ -32,9 +36,7 @@ dependencies {
 
     def lifecycle_version = "2.2.0"
     def retrofit_version = "2.5.0"
-    def rx_java_version = "2.1.1"
     def rx_call_adapter_version = "2.5.0"
-    def reactivestreams_version = "1.1.1"
     def nav_version = "2.3.0-alpha06"
 
     // ViewModel and LiveData
@@ -43,15 +45,6 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
-    // RxJava
-    implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
-
-    // Rx-Retrofit Call Adapter
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$rx_call_adapter_version"
-
-    // Reactive Streams (convert Observable to LiveData)
-    implementation "android.arch.lifecycle:reactivestreams:$reactivestreams_version"
 
     // architecture comp. navigation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
