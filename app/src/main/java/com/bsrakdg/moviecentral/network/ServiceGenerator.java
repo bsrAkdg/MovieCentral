@@ -13,7 +13,7 @@ public class ServiceGenerator {
     private ServiceGenerator() {
     }
 
-    public static Retrofit getRetrofit() {
+    public static MovieApi getRetrofit() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.BASE_URL)
@@ -21,7 +21,7 @@ public class ServiceGenerator {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        return retrofit;
+        return retrofit.create(MovieApi.class);
     }
 
 }

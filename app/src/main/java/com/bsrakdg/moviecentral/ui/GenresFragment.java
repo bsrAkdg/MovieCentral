@@ -43,6 +43,8 @@ public class GenresFragment extends BaseFragment {
         binding.setGenreViewModel(genresViewModel);
 
         subscribeViewModel();
+
+        genresViewModel.queryGenres();
     }
 
     private void subscribeViewModel() {
@@ -52,7 +54,7 @@ public class GenresFragment extends BaseFragment {
             @Override
             public void onChanged(List<Genre> genres) {
                 if (genres != null) {
-                    genresViewModel.getAdapter().setGenres(genres);
+                    genresViewModel.getAdapter().setItems(genres);
                 }
             }
         });

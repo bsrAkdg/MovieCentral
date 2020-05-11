@@ -24,6 +24,10 @@ public class GenresViewModel extends ViewModel {
         adapter = new GenresAdapter();
     }
 
+    public void queryGenres() {
+        genresRepository.queryGenres();
+    }
+
     public GenresAdapter getAdapter() {
         return adapter;
     }
