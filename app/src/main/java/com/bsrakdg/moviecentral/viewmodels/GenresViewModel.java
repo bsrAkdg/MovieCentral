@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import com.bsrakdg.moviecentral.adapters.GenresAdapter;
 import com.bsrakdg.moviecentral.models.Genre;
 import com.bsrakdg.moviecentral.repositories.GenresRepository;
+import com.bsrakdg.moviecentral.utils.Resource;
 
 import java.util.List;
 
@@ -32,8 +33,7 @@ public class GenresViewModel extends ViewModel {
         return adapter;
     }
 
-    public LiveData<List<Genre>> getGenres() {
+    public LiveData<Resource<List<Genre>>> getGenres() {
         return genresRepository.getGenres();
     }
-
 }

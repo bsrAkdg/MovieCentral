@@ -12,6 +12,7 @@ import com.bsrakdg.moviecentral.network.ServiceGenerator;
 import com.bsrakdg.moviecentral.network.responses.ApiResponse;
 import com.bsrakdg.moviecentral.network.responses.GenresResponse;
 import com.bsrakdg.moviecentral.utils.Constants;
+import com.bsrakdg.moviecentral.utils.Resource;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class GenresRepository {
     private static final String TAG = "GenresRepository";
 
     private static GenresRepository genresRepository;
-    private MediatorLiveData<List<Genre>> mediatorGenres = new MediatorLiveData<>();
+    private MediatorLiveData<Resource<List<Genre>>> mediatorGenres = new MediatorLiveData<>();
 
     private GenresRepository() {
         Log.d(TAG, "GenresRepository: constructor");
@@ -33,7 +34,7 @@ public class GenresRepository {
         return genresRepository;
     }
 
-    public LiveData<List<Genre>> getGenres() {
+    public LiveData<Resource<List<Genre>>> getGenres() {
         return mediatorGenres;
     }
 
@@ -47,9 +48,8 @@ public class GenresRepository {
                 mediatorGenres.removeSource(queryGenres);
                 if (response instanceof ApiResponse.ApiSuccessResponse) {
                     GenresResponse genresResponse =
-                            (GenresResponse) ((ApiResponse.ApiSuccessResponse) response)
-                            .getBody();
-                    mediatorGenres.setValue(genresResponse.getGenres());
+                            (GenresResponse) ((ApiResponse.ApiSuccessResponse) response).getBody();
+                    mediatorGenres.setValue(Resource.success(genresResponse.getGenres()));
                 }
             }
         });
