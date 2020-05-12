@@ -6,9 +6,18 @@
     <fragment
         android:id="@+id/genresFragment"
         android:name="com.bsrakdg.moviecentral.ui.GenresFragment"
-        android:label="GenresFragment" />
+        android:label="GenresFragment">
+        <action
+            android:id="@+id/action_genresFragment_to_moviesFragment"
+            app:destination="@id/moviesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/moviesFragment"
         android:name="com.bsrakdg.moviecentral.ui.MoviesFragment"
-        android:label="MoviesFragment" />
+        android:label="MoviesFragment">
+
+        <argument
+            android:name="genre"
+            app:argType="com.bsrakdg.moviecentral.models.Genre" />
+    </fragment>
 </navigation>

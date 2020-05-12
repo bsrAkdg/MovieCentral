@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.bsrakdg.moviecentral.R;
 import com.bsrakdg.moviecentral.databinding.FragmentGenresBinding;
@@ -35,7 +36,10 @@ public class GenresFragment extends BaseFragment implements OnItemClickListener<
 
     @Override
     public void onItemClick(Genre item) {
-
+        if (getView() != null) {
+            Navigation.findNavController(getView())
+                    .navigate(GenresFragmentDirections.actionGenresFragmentToMoviesFragment(item));
+        }
     }
 
     @Override
