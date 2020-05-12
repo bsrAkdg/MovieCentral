@@ -18,8 +18,8 @@ public class GenreViewHolder extends BaseViewHolder<Genre> implements View.OnCli
     public GenreViewHolder(@NonNull ViewDataBinding binding,
                            OnItemClickListener<Genre> listener) {
         super(binding);
-        this.binding.getRoot().setOnClickListener(this);
         this.binding = (ListItemGenreBinding) binding;
+        this.binding.getRoot().setOnClickListener(this);
         this.listener = listener;
     }
 
