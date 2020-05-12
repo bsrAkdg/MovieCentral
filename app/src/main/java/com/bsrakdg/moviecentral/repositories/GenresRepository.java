@@ -49,23 +49,37 @@ public class GenresRepository {
         return new NetworkBoundResource<List<Genre>, GenresResponse>(appExecutors) {
             @Override
             protected void saveCallResult(@NonNull GenresResponse item) {
-
+                if (item.getGenres() != null) {
+                    int index = 0;
+                    for (long id : movieDao.saveGenres(item.getGenres())) {
+                        if (id == -1) {
+                            // conflict, update old data
+                            Log.d(TAG, "saveCallResult: queryGenres conflict");
+                            Genre genre = item.getGenres().get(index);
+                            movieDao.updateGenre(genre.getId(), genre.getName(),
+                                    (int) System.currentTimeMillis() / 1000);
+                        }
+                    }
+                    Log.d(TAG, "saveCallResult: queryGenres complete");
+                }
             }
 
             @Override
             protected boolean shouldFetch(@Nullable List<Genre> data) {
-                return true;
+                return data == null || data.size() == 0;
             }
 
             @NonNull
             @Override
             protected LiveData<List<Genre>> loadFromDb() {
+                Log.d(TAG, "loadFromDb: queryGenres");
                 return movieDao.getGenres();
             }
 
             @NonNull
             @Override
             protected LiveData<ApiResponse<GenresResponse>> createCall() {
+                Log.d(TAG, "createCall: queryGenres");
                 return movieApi.getGenres(BuildConfig.API_KEY, Constants.LANGUAGE);
             }
         }.getAsLiveData();

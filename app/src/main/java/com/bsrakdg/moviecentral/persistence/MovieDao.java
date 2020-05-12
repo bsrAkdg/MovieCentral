@@ -21,4 +21,7 @@ public interface MovieDao {
     // no conflict return = { -1, id2, -1, ...} id1 and id3 conflict
     @Insert(onConflict = REPLACE)
     long[] saveGenres(List<Genre> genres);
+
+    @Query("UPDATE genres SET name = :name, date = :date WHERE  id = :id")
+    void updateGenre(int id, String name, int date);
 }

@@ -32,12 +32,12 @@ public class Genre implements Parcelable {
     private String name;
 
     @ColumnInfo(name = "date")
-    private String date;
+    private int date;
 
     private Genre(Parcel in) {
         id = in.readInt();
         name = in.readString();
-        date = in.readString();
+        date = in.readInt();
     }
 
     @Override
@@ -49,14 +49,14 @@ public class Genre implements Parcelable {
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(id);
         parcel.writeString(name);
-        parcel.writeString(date);
+        parcel.writeInt(date);
     }
 
-    public String getDate() {
+    public int getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(int date) {
         this.date = date;
     }
 
