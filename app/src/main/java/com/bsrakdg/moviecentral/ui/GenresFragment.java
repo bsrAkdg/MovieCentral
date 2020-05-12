@@ -11,10 +11,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bsrakdg.moviecentral.R;
 import com.bsrakdg.moviecentral.databinding.FragmentGenresBinding;
+import com.bsrakdg.moviecentral.models.Genre;
 import com.bsrakdg.moviecentral.utils.Resource;
+import com.bsrakdg.moviecentral.utils.listeners.OnItemClickListener;
 import com.bsrakdg.moviecentral.viewmodels.GenresViewModel;
 
-public class GenresFragment extends BaseFragment {
+public class GenresFragment extends BaseFragment implements OnItemClickListener<Genre> {
 
     private static final String TAG = "GenresFragment";
 
@@ -32,10 +34,16 @@ public class GenresFragment extends BaseFragment {
     }
 
     @Override
+    public void onItemClick(Genre item) {
+
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated: ");
 
         genresViewModel = new ViewModelProvider(this).get(GenresViewModel.class);
+        genresViewModel.getAdapter().setOnItemClickListener(this);
 
         binding.setGenreViewModel(genresViewModel);
 
