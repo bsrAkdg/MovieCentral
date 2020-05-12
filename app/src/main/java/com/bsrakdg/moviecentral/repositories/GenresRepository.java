@@ -2,16 +2,15 @@ package com.bsrakdg.moviecentral.repositories;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
 
-import com.bsrakdg.moviecentral.BuildConfig;
 import com.bsrakdg.moviecentral.models.Genre;
-import com.bsrakdg.moviecentral.network.ServiceGenerator;
 import com.bsrakdg.moviecentral.network.responses.ApiResponse;
 import com.bsrakdg.moviecentral.network.responses.GenresResponse;
-import com.bsrakdg.moviecentral.utils.Constants;
+import com.bsrakdg.moviecentral.ui.NetworkBoundResource;
+import com.bsrakdg.moviecentral.utils.AppExecutors;
 import com.bsrakdg.moviecentral.utils.Resource;
 
 import java.util.List;
@@ -21,10 +20,11 @@ public class GenresRepository {
     private static final String TAG = "GenresRepository";
 
     private static GenresRepository genresRepository;
-    private MediatorLiveData<Resource<List<Genre>>> mediatorGenres = new MediatorLiveData<>();
+    private AppExecutors appExecutors;
 
     private GenresRepository() {
         Log.d(TAG, "GenresRepository: constructor");
+        appExecutors = AppExecutors.getInstance();
     }
 
     public static GenresRepository getGenresRepositoryInstance() {
@@ -34,25 +34,29 @@ public class GenresRepository {
         return genresRepository;
     }
 
-    public LiveData<Resource<List<Genre>>> getGenres() {
-        return mediatorGenres;
-    }
-
-    public void queryGenres() {
-        final LiveData<ApiResponse<GenresResponse>> queryGenres
-                = ServiceGenerator.getRetrofit().getGenres(BuildConfig.API_KEY, Constants.LANGUAGE);
-
-        mediatorGenres.addSource(queryGenres, new Observer<ApiResponse<GenresResponse>>() {
+    public LiveData<Resource<List<Genre>>> queryGenres() {
+        return new NetworkBoundResource<List<Genre>, GenresResponse>(appExecutors) {
             @Override
-            public void onChanged(ApiResponse<GenresResponse> response) {
-                mediatorGenres.removeSource(queryGenres);
-                if (response instanceof ApiResponse.ApiSuccessResponse) {
-                    GenresResponse genresResponse =
-                            (GenresResponse) ((ApiResponse.ApiSuccessResponse) response).getBody();
-                    mediatorGenres.setValue(Resource.success(genresResponse.getGenres()));
-                }
-            }
-        });
+            protected void saveCallResult(@NonNull GenresResponse item) {
 
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<Genre> data) {
+                return false;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<Genre>> loadFromDb() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<GenresResponse>> createCall() {
+                return null;
+            }
+        }.getAsLiveData();
     }
 }

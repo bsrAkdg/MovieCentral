@@ -25,15 +25,11 @@ public class GenresViewModel extends ViewModel {
         adapter = new GenresAdapter();
     }
 
-    public void queryGenres() {
-        genresRepository.queryGenres();
-    }
-
     public GenresAdapter getAdapter() {
         return adapter;
     }
 
     public LiveData<Resource<List<Genre>>> getGenres() {
-        return genresRepository.getGenres();
+        return genresRepository.queryGenres();
     }
 }

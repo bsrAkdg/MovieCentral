@@ -7,16 +7,12 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bsrakdg.moviecentral.R;
 import com.bsrakdg.moviecentral.databinding.FragmentGenresBinding;
-import com.bsrakdg.moviecentral.models.Genre;
 import com.bsrakdg.moviecentral.utils.Resource;
 import com.bsrakdg.moviecentral.viewmodels.GenresViewModel;
-
-import java.util.List;
 
 public class GenresFragment extends BaseFragment {
 
@@ -45,20 +41,16 @@ public class GenresFragment extends BaseFragment {
 
         subscribeViewModel();
 
-        genresViewModel.queryGenres();
     }
 
     private void subscribeViewModel() {
         // for memory leak
         genresViewModel.getGenres().removeObservers(getViewLifecycleOwner());
         genresViewModel.getGenres()
-                .observe(getViewLifecycleOwner(), new Observer<Resource<List<Genre>>>() {
-                    @Override
-                    public void onChanged(Resource<List<Genre>> listResource) {
-                        if (listResource != null) {
-                            if (listResource.getStatus() == Resource.Status.SUCCESS) {
-                                genresViewModel.getAdapter().setItems(listResource.getBody());
-                            }
+                .observe(getViewLifecycleOwner(), listResource -> {
+                    if (listResource != null) {
+                        if (listResource.getStatus() == Resource.Status.SUCCESS) {
+                            genresViewModel.getAdapter().setItems(listResource.getBody());
                         }
                     }
                 });
