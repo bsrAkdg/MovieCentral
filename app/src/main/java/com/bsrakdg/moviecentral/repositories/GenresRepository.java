@@ -59,6 +59,7 @@ public class GenresRepository {
                             movieDao.updateGenre(genre.getId(), genre.getName(),
                                     (int) System.currentTimeMillis() / 1000);
                         }
+                        index++;
                     }
                     Log.d(TAG, "saveCallResult: queryGenres complete");
                 }
@@ -66,7 +67,7 @@ public class GenresRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable List<Genre> data) {
-                return data == null || data.size() == 0;
+                return true; //data == null || data.size() == 0;
             }
 
             @NonNull

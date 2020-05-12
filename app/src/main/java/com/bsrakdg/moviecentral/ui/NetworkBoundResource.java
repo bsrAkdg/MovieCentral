@@ -39,8 +39,8 @@ public abstract class NetworkBoundResource<CacheObject, RequestObject> {
                         // db ye kaydet
                         saveCallResult(handleResponse((ApiResponse.ApiSuccessResponse) response));
 
-                        results.addSource(loadFromDb(), cacheObject -> results
-                                .setValue(Resource.success(cacheObject)));
+                        appExecutors.getMain().execute(() -> results.addSource(loadFromDb(), cacheObject -> results
+                                .setValue(Resource.success(cacheObject))));
                     });
                 } else if (response instanceof ApiResponse.ApiErrorResponse) {
                     // if error return local data
