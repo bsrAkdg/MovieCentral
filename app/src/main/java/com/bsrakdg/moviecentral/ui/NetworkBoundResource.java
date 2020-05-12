@@ -17,7 +17,7 @@ public abstract class NetworkBoundResource<CacheObject, RequestObject> {
     private MediatorLiveData<Resource<CacheObject>> results = new MediatorLiveData<>();
     private AppExecutors appExecutors;
 
-    public NetworkBoundResource(AppExecutors appExecutors) {
+    protected NetworkBoundResource(AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
         init();
     }
@@ -43,10 +43,13 @@ public abstract class NetworkBoundResource<CacheObject, RequestObject> {
                                 .setValue(Resource.success(cacheObject)));
                     });
                 } else if (response instanceof ApiResponse.ApiErrorResponse) {
-                    results.setValue(Resource
-                            .error(((ApiResponse.ApiErrorResponse) response).getMessage()));
+                    // if error return local data
+                    results.addSource(loadFromDb(), cacheObject ->
+                            results.setValue(Resource.error(((ApiResponse.ApiErrorResponse) response).getMessage(), cacheObject)));
+
                 } else {
-                    results.setValue(Resource.error(Constants.EMPTY));
+                    results.addSource(dbSource, cacheObject ->
+                            results.setValue(Resource.error(Constants.EMPTY, cacheObject)));
                 }
             }
         });

@@ -21,8 +21,8 @@ public class Resource<T> {
         return new Resource<T>(null, null, Status.LOADING);
     }
 
-    public static <T> Resource<T> error(String message) {
-        return new Resource<T>(null, message, Status.ERROR);
+    public static <T> Resource<T> error(String message, T body) {
+        return new Resource<T>(body, message, Status.ERROR);
     }
 
     @NonNull
