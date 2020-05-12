@@ -2,27 +2,26 @@ package com.bsrakdg.moviecentral.repositories;
 
 import android.util.Log;
 
-import com.bsrakdg.moviecentral.BaseApplication;
-import com.bsrakdg.moviecentral.models.Movie;
-import com.bsrakdg.moviecentral.network.MovieApi;
-import com.bsrakdg.moviecentral.network.ServiceGenerator;
-import com.bsrakdg.moviecentral.persistence.MovieDao;
-import com.bsrakdg.moviecentral.persistence.MovieDatabase;
-import com.bsrakdg.moviecentral.utils.AppExecutors;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 
-public class MoviesRepository {
+import com.bsrakdg.moviecentral.models.Movie;
+import com.bsrakdg.moviecentral.network.responses.ApiResponse;
+import com.bsrakdg.moviecentral.network.responses.MoviesResponse;
+import com.bsrakdg.moviecentral.ui.NetworkBoundResource;
+import com.bsrakdg.moviecentral.utils.Resource;
+
+import java.util.List;
+
+public class MoviesRepository extends BaseRepository {
     private static final String TAG = "MoviesRepository";
 
     private static MoviesRepository moviesRepository;
-    private AppExecutors appExecutors;
-    private MovieDao movieDao;
-    private MovieApi movieApi;
 
     private MoviesRepository() {
-        Log.d(TAG, "MoviesRepository: ");
-        appExecutors = AppExecutors.getInstance();
-        movieDao = MovieDatabase.getInstance(BaseApplication.getAppContext()).getMovieDao();
-        movieApi = ServiceGenerator.getMovieApi();
+        super();
+        Log.d(TAG, "MoviesRepository: create");
     }
 
     public static MoviesRepository getInstance() {
@@ -30,5 +29,32 @@ public class MoviesRepository {
             moviesRepository = new MoviesRepository();
         }
         return moviesRepository;
+    }
+
+    public LiveData<Resource<List<Movie>>> getMovies() {
+        return new NetworkBoundResource<List<Movie>, MoviesResponse>(getAppExecutors()) {
+
+            @Override
+            protected void saveCallResult(@NonNull MoviesResponse item) {
+
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<Movie> data) {
+                return true;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<Movie>> loadFromDb() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<MoviesResponse>> createCall() {
+                return null;
+            }
+        }.getAsLiveData();
     }
 }
