@@ -1,11 +1,5 @@
 package com.bsrakdg.moviecentral.ui;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -22,7 +16,6 @@ public class GenresFragment extends BaseFragment implements OnItemClickListener<
     private static final String TAG = "GenresFragment";
 
     private GenresViewModel genresViewModel;
-    private FragmentGenresBinding binding;
 
     @Override
     protected int getLayoutId() {
@@ -31,10 +24,8 @@ public class GenresFragment extends BaseFragment implements OnItemClickListener<
 
     @Override
     protected void onBindDataBinding(ViewDataBinding binding) {
-        this.binding = (FragmentGenresBinding) binding;
-
         genresViewModel = new ViewModelProvider(this).get(GenresViewModel.class);
-        this.binding.setGenreViewModel(genresViewModel);
+        ((FragmentGenresBinding) binding).setGenreViewModel(genresViewModel);
 
         genresViewModel.getAdapter().setOnItemClickListener(this);
 
@@ -55,8 +46,16 @@ public class GenresFragment extends BaseFragment implements OnItemClickListener<
         genresViewModel.getGenres()
                 .observe(getViewLifecycleOwner(), listResource -> {
                     if (listResource != null) {
-                        if (listResource.getStatus() == Resource.Status.SUCCESS) {
+                        if (listResource.getStatus() == Resource.Status.LOADING) {
+                            // show progress
+
+                        } else if (listResource.getStatus() == Resource.Status.SUCCESS) {
+                            // update adapter
                             genresViewModel.getAdapter().setItems(listResource.getBody());
+
+                        } else if (listResource.getStatus() == Resource.Status.ERROR) {
+                            // show error
+
                         }
                     }
                 });

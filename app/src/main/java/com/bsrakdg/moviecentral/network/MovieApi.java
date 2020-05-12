@@ -16,7 +16,7 @@ public interface MovieApi {
                                                     @Query("language") String language);
 
     @GET("3/discover/movie")
-    LiveData<ApiResponse<MoviesResponse>> getGenres(@Query("api_key") String apiKey,
+    LiveData<ApiResponse<MoviesResponse>> getMovies(@Query("api_key") String apiKey,
                                                     @Query("language") String language,
                                                     @Query("sort_by") String sort_by,
                                                     @Query("page") int page,
