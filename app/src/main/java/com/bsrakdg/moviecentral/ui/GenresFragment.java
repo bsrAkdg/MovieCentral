@@ -32,6 +32,13 @@ public class GenresFragment extends BaseFragment implements OnItemClickListener<
     @Override
     protected void onBindDataBinding(ViewDataBinding binding) {
         this.binding = (FragmentGenresBinding) binding;
+
+        genresViewModel = new ViewModelProvider(this).get(GenresViewModel.class);
+        this.binding.setGenreViewModel(genresViewModel);
+
+        genresViewModel.getAdapter().setOnItemClickListener(this);
+
+        subscribeViewModel();
     }
 
     @Override
@@ -40,19 +47,6 @@ public class GenresFragment extends BaseFragment implements OnItemClickListener<
             Navigation.findNavController(getView())
                     .navigate(GenresFragmentDirections.actionGenresFragmentToMoviesFragment(item));
         }
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated: ");
-
-        genresViewModel = new ViewModelProvider(this).get(GenresViewModel.class);
-        genresViewModel.getAdapter().setOnItemClickListener(this);
-
-        binding.setGenreViewModel(genresViewModel);
-
-        subscribeViewModel();
-
     }
 
     private void subscribeViewModel() {
