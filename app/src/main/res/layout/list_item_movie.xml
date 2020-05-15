@@ -18,11 +18,12 @@
 
         <ImageView
             android:id="@+id/imageViewMovie"
+            setImageApi="@{movie.poster_path}"
             android:layout_width="@dimen/dimen64"
             android:layout_height="@dimen/dimen64"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textViewMovieOverview"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMovieAverage"
             tools:src="@tools:sample/avatars" />
 
         <TextView
@@ -30,10 +31,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen8"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{movie.title}"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewMovie"
+            app:layout_constraintEnd_toEndOf="@id/textViewMovieOverview"
             app:layout_constraintStart_toEndOf="@+id/imageViewMovie"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imageViewMovie"
             tools:text="Truman Show" />
 
         <TextView
@@ -42,7 +44,8 @@
             android:layout_height="wrap_content"
             android:drawableStart="@android:drawable/btn_star_big_on"
             android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/textViewMovieTitle"
+            android:text="@{movie.voteAverage}"
+            app:layout_constraintBottom_toTopOf="@+id/imageViewMovie"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="8.7" />
@@ -52,6 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen8"
+            android:text="@{movie.overview}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/textViewMovieTitle"
             app:layout_constraintStart_toStartOf="@+id/imageViewMovie"
             app:layout_constraintTop_toBottomOf="@+id/imageViewMovie"

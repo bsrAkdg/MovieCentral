@@ -34,6 +34,10 @@ public class Movie implements Parcelable {
     @ColumnInfo(name = "vote_count")
     private int vote_count;
 
+    public String getVoteAverage() {
+        return String.valueOf(vote_average);
+    }
+
     @ColumnInfo(name = "vote_average")
     private double vote_average;
 
