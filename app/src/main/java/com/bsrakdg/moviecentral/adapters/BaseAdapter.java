@@ -9,13 +9,16 @@ import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bsrakdg.moviecentral.adapters.viewholders.BaseViewHolder;
+import com.bsrakdg.moviecentral.utils.listeners.OnItemClickListener;
 
 import java.util.List;
 
-public abstract class BaseAdapter<T, V extends BaseViewHolder<T>> extends RecyclerView.Adapter<V> {
+public abstract class BaseAdapter<T, V extends BaseViewHolder<T>> extends RecyclerView.Adapter<V> implements OnItemClickListener<T> {
+
+    OnItemClickListener<T> listener;
     private List<T> items;
 
-    public BaseAdapter() {
+    BaseAdapter() {
     }
 
     @NonNull
@@ -40,6 +43,13 @@ public abstract class BaseAdapter<T, V extends BaseViewHolder<T>> extends Recycl
         return 0;
     }
 
+    @Override
+    public void onItemClick(T item) {
+        if (listener != null) {
+            listener.onItemClick(item);
+        }
+    }
+
     public List<T> getItems() {
         return items;
     }
@@ -47,6 +57,10 @@ public abstract class BaseAdapter<T, V extends BaseViewHolder<T>> extends Recycl
     public void setItems(List<T> items) {
         this.items = items;
         notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
+        this.listener = onItemClickListener;
     }
 
     protected abstract int getItemLayoutId(int viewType);

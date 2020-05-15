@@ -15,6 +15,6 @@ public class MoviesAdapter extends BaseAdapter<Movie, MovieViewHolder> {
 
     @Override
     protected MovieViewHolder getViewHolder(ViewDataBinding binding, int viewType) {
-        return new MovieViewHolder(binding);
+        return new MovieViewHolder(binding, listener);
     }
 }
