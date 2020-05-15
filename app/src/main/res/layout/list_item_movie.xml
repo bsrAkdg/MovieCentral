@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="movie"
+            type="com.bsrakdg.moviecentral.models.Movie" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

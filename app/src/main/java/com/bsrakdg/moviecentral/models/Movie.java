@@ -3,6 +3,12 @@ package com.bsrakdg.moviecentral.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "movies")
 public class Movie implements Parcelable {
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -16,13 +22,31 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "id")
     private int id;
+
+    @ColumnInfo(name = "popularity")
     private double popularity;
+
+    @ColumnInfo(name = "vote_count")
     private int vote_count;
+
+    @ColumnInfo(name = "vote_average")
     private double vote_average;
+
+    @ColumnInfo(name = "title")
     private String title;
+
+    @ColumnInfo(name = "release_date")
     private String release_date;
+
+    @ColumnInfo(name = "poster_path")
     private String poster_path;
+
+    @ColumnInfo(name = "overview")
     private String overview;
 
     public Movie(int id, double popularity, int vote_count, double vote_average, String title,

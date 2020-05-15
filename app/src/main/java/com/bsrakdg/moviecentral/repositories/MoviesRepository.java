@@ -39,7 +39,27 @@ public class MoviesRepository extends BaseRepository {
 
             @Override
             protected void saveCallResult(@NonNull MoviesResponse item) {
-
+                if (item.getResults() != null) {
+                    int index = 0;
+                    for (long id : getMovieDao().saveMovies(item.getResults())) {
+                        if (id == -1) {
+                            // conflict, update old data
+                            Log.d(TAG, "saveCallResult: getMovies conflict");
+                            Movie movie = item.getResults().get(index);
+                            getMovieDao().updateMovie(
+                                    movie.getId(),
+                                    movie.getPopularity(),
+                                    movie.getVote_count(),
+                                    movie.getVote_average(),
+                                    movie.getTitle(),
+                                    movie.getRelease_date(),
+                                    movie.getPoster_path(),
+                                    movie.getOverview());
+                        }
+                        index++;
+                    }
+                    Log.d(TAG, "saveCallResult: getMovies complete");
+                }
             }
 
             @Override
@@ -50,14 +70,15 @@ public class MoviesRepository extends BaseRepository {
             @NonNull
             @Override
             protected LiveData<List<Movie>> loadFromDb() {
-                return null;
+                return getMovieDao().getMovies();
             }
 
             @NonNull
             @Override
             protected LiveData<ApiResponse<MoviesResponse>> createCall() {
                 return getMovieApi()
-                        .getMovies(BuildConfig.API_KEY, Constants.LANGUAGE, Constants.POPULARITY_DESC, page, genreId);
+                        .getMovies(BuildConfig.API_KEY, Constants.LANGUAGE,
+                                Constants.POPULARITY_DESC, page, genreId);
             }
         }.getAsLiveData();
     }

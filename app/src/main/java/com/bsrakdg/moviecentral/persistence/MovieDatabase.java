@@ -8,8 +8,9 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.bsrakdg.moviecentral.models.Genre;
+import com.bsrakdg.moviecentral.models.Movie;
 
-@Database(entities = {Genre.class}, version = 1)
+@Database(entities = {Genre.class, Movie.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class MovieDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "MovieCentral";
