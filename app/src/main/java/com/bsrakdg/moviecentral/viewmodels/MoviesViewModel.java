@@ -14,12 +14,12 @@ public class MoviesViewModel extends ViewModel {
     private MoviesRepository moviesRepository;
 
     private MoviesAdapter moviesAdapter;
+    private int genresId;
 
     public MoviesViewModel() {
         moviesRepository = MoviesRepository.getInstance();
         moviesAdapter = new MoviesAdapter();
     }
-    private int genresId;
 
     public LiveData<Resource<List<Movie>>> getMovies() {
         return moviesRepository.getMovies(genresId);

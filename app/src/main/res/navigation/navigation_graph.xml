@@ -19,5 +19,19 @@
         <argument
             android:name="genre"
             app:argType="com.bsrakdg.moviecentral.models.Genre" />
+        <action
+            android:id="@+id/action_moviesFragment_to_moviesDetailFragment"
+            app:destination="@id/moviesDetailFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/moviesDetailFragment"
+        android:name="com.bsrakdg.moviecentral.ui.MovieDetailFragment"
+        android:label="MovieDetailFragment">
+
+        <argument
+            android:name="movie"
+            app:argType="com.bsrakdg.moviecentral.models.Movie" />
+    </fragment>
+
 </navigation>

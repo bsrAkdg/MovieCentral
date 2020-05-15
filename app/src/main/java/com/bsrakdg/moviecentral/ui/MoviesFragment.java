@@ -4,13 +4,16 @@ import android.util.Log;
 
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.bsrakdg.moviecentral.R;
 import com.bsrakdg.moviecentral.databinding.FragmentMoviesBinding;
+import com.bsrakdg.moviecentral.models.Movie;
 import com.bsrakdg.moviecentral.utils.Resource;
+import com.bsrakdg.moviecentral.utils.listeners.OnItemClickListener;
 import com.bsrakdg.moviecentral.viewmodels.MoviesViewModel;
 
-public class MoviesFragment extends BaseFragment {
+public class MoviesFragment extends BaseFragment implements OnItemClickListener<Movie> {
 
     private static final String TAG = "MoviesFragment";
 
@@ -24,14 +27,24 @@ public class MoviesFragment extends BaseFragment {
     @Override
     protected void onBindDataBinding(ViewDataBinding binding) {
         moviesViewModel = new ViewModelProvider(this).get(MoviesViewModel.class);
+        moviesViewModel.getMoviesAdapter().setOnItemClickListener(this);
 
         if (getArguments() != null) {
             moviesViewModel
                     .setGenresId(MoviesFragmentArgs.fromBundle(getArguments()).getGenre().getId());
         }
-        ((FragmentMoviesBinding) binding).setMoviesViewModel(moviesViewModel);
 
+        ((FragmentMoviesBinding) binding).setMoviesViewModel(moviesViewModel);
         subscribeViewModel();
+    }
+
+    @Override
+    public void onItemClick(Movie item) {
+        if (getView() != null) {
+            Navigation.findNavController(getView())
+                    .navigate(MoviesFragmentDirections
+                            .actionMoviesFragmentToMoviesDetailFragment(item));
+        }
     }
 
     private void subscribeViewModel() {

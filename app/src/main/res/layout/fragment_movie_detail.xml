@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="movie"
+            type="com.bsrakdg.moviecentral.models.Movie" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/dimen8"
+        android:paddingEnd="@dimen/dimen8">
+
+        <ImageView
+            android:id="@+id/imageViewMovie"
+            setImageApi="@{movie.poster_path}"
+            android:layout_width="@dimen/dimen64"
+            android:layout_height="@dimen/dimen64"
+            app:layout_constraintBottom_toTopOf="@id/textViewMovieOverview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewMovieAverage"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/textViewMovieTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen8"
+            android:text="@{movie.title}"
+            app:layout_constraintBottom_toBottomOf="@id/imageViewMovie"
+            app:layout_constraintEnd_toEndOf="@id/textViewMovieOverview"
+            app:layout_constraintStart_toEndOf="@+id/imageViewMovie"
+            app:layout_constraintTop_toTopOf="@id/imageViewMovie"
+            tools:text="Truman Show" />
+
+        <TextView
+            android:id="@+id/textViewMovieAverage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@android:drawable/btn_star_big_on"
+            android:gravity="center"
+            android:text="@{movie.voteAverage}"
+            app:layout_constraintBottom_toTopOf="@+id/imageViewMovie"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="8.7" />
+
+        <TextView
+            android:id="@+id/textViewMovieOverview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen8"
+            android:text="@{movie.overview}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textViewMovieTitle"
+            app:layout_constraintStart_toStartOf="@+id/imageViewMovie"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewMovie"
+            tools:text="@tools:sample/backgrounds/scenic" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
