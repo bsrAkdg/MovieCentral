@@ -1,8 +1,11 @@
 package com.bsrakdg.moviecentral.viewmodels;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.bsrakdg.moviecentral.models.Movie;
 import com.bsrakdg.moviecentral.repositories.MoviesRepository;
+import com.bsrakdg.moviecentral.utils.Resource;
 
 public class MovieDetailViewModel extends ViewModel {
     private int moviesId;
@@ -20,4 +23,7 @@ public class MovieDetailViewModel extends ViewModel {
         this.moviesId = moviesId;
     }
 
+    public LiveData<Resource<Movie>> getMovieDetail() {
+        return repository.getMovieDetail(moviesId);
+    }
 }

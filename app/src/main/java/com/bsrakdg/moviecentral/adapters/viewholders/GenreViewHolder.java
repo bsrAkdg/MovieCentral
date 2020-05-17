@@ -15,7 +15,6 @@ public class GenreViewHolder extends BaseViewHolder<Genre> {
                            OnItemClickListener<Genre> listener) {
         super(binding, listener);
         this.binding = (ListItemGenreBinding) binding;
-        this.binding.getRoot().setOnClickListener(this);
     }
 
     @Override

@@ -21,6 +21,9 @@ public interface MovieDao {
     @Query("SELECT * FROM movies")
     LiveData<List<Movie>> getMovies();
 
+    @Query("SELECT * FROM movies WHERE id = :id")
+    LiveData<Movie> getMovieDetail(int id);
+
     // no conflict return = { id1, id2, id3, ...}
     // no conflict return = { -1, id2, -1, ...} id1 and id3 conflict
     @Insert(onConflict = REPLACE)
@@ -28,6 +31,9 @@ public interface MovieDao {
 
     @Insert(onConflict = REPLACE)
     long[] saveMovies(List<Movie> movies);
+
+    @Insert(onConflict = REPLACE)
+    long saveMovie(Movie movie);
 
     @Query("UPDATE genres SET name = :name, date = :date WHERE  id = :id")
     void updateGenre(int id, String name, int date);

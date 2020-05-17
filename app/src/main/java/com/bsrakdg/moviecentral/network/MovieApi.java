@@ -2,11 +2,13 @@ package com.bsrakdg.moviecentral.network;
 
 import androidx.lifecycle.LiveData;
 
+import com.bsrakdg.moviecentral.models.Movie;
 import com.bsrakdg.moviecentral.network.responses.ApiResponse;
 import com.bsrakdg.moviecentral.network.responses.GenresResponse;
 import com.bsrakdg.moviecentral.network.responses.MoviesResponse;
 
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface MovieApi {
@@ -22,4 +24,9 @@ public interface MovieApi {
                                                     @Query("page") int page,
                                                     @Query("with_genres") int genre);
 
+
+    @GET("3/movie/{id}")
+    LiveData<ApiResponse<Movie>> getMovieDetail(@Path ("id") int id,
+                                                @Query("api_key") String apiKey,
+                                                @Query("language") String language);
 }

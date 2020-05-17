@@ -1,5 +1,6 @@
 package com.bsrakdg.moviecentral.repositories;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -79,6 +80,43 @@ public class MoviesRepository extends BaseRepository {
                 return getMovieApi()
                         .getMovies(BuildConfig.API_KEY, Constants.LANGUAGE,
                                 Constants.POPULARITY_DESC, page, genreId);
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Resource<Movie>> getMovieDetail(int movieId) {
+        return new NetworkBoundResource<Movie, Movie>(getAppExecutors()) {
+            @Override
+            protected void saveCallResult(@NonNull Movie movie) {
+                long id = getMovieDao().saveMovie(movie);
+                if (-1 == id) {
+                    getMovieDao().updateMovie(
+                            movie.getId(),
+                            movie.getPopularity(),
+                            movie.getVote_count(),
+                            movie.getVote_average(),
+                            movie.getTitle(),
+                            movie.getRelease_date(),
+                            movie.getPoster_path(),
+                            movie.getOverview());
+                }
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable Movie data) {
+                return data == null || TextUtils.isEmpty(data.getTitle());
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<Movie> loadFromDb() {
+                return getMovieDao().getMovieDetail(movieId);
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<Movie>> createCall() {
+                return getMovieApi().getMovieDetail(movieId, BuildConfig.API_KEY, Constants.LANGUAGE);
             }
         }.getAsLiveData();
     }

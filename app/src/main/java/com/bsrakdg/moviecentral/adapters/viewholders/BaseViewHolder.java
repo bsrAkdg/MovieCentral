@@ -15,6 +15,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
 
     BaseViewHolder(@NonNull ViewDataBinding binding, OnItemClickListener<T> listener) {
         super(binding.getRoot());
+        binding.getRoot().setOnClickListener(this);
         this.listener = listener;
     }
 
