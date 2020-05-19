@@ -2,6 +2,7 @@ package com.bsrakdg.moviecentral.ui;
 
 import android.util.Log;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -18,6 +19,7 @@ public class MoviesFragment extends BaseFragment implements OnItemClickListener<
     private static final String TAG = "MoviesFragment";
 
     private MoviesViewModel moviesViewModel;
+    private FragmentMoviesBinding binding;
 
     @Override
     protected int getLayoutId() {
@@ -34,8 +36,30 @@ public class MoviesFragment extends BaseFragment implements OnItemClickListener<
                     .setGenresId(MoviesFragmentArgs.fromBundle(getArguments()).getGenre().getId());
         }
 
-        ((FragmentMoviesBinding) binding).setMoviesViewModel(moviesViewModel);
+        this.binding = (FragmentMoviesBinding) binding;
+        this.binding.setMoviesViewModel(moviesViewModel);
+
         subscribeViewModel();
+        initSearchView();
+    }
+
+    private void initSearchView() {
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                searchMovies(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+    }
+
+    private void searchMovies(String movies) {
+        moviesViewModel.searchMovies(movies);
     }
 
     @Override

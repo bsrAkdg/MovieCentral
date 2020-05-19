@@ -29,6 +29,10 @@ public class MoviesViewModel extends ViewModel {
         return moviesAdapter;
     }
 
+    public void searchMovies(String movies) {
+
+    }
+
     public void setGenresId(int genresId) {
         this.genresId = genresId;
     }
